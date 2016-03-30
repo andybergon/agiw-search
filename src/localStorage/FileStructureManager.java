@@ -25,8 +25,10 @@ public class FileStructureManager {
 		createAllFile(structureList);
 		serializeStructure(structureList);
 		List<Structure> structureList2=deserializeStructure("/Users/chiara/Desktop/structure/structure");
-		for(Structure s : structureList2)
+		for(Structure s : structureList2){
 			System.out.println(s.getLastname());
+			System.out.println(s.getPositionToUrl().keySet());
+			}
 	}
 	public static List<Structure> createStructure(String pathFile) throws IOException{
 		List<Structure> structureList = new ArrayList<Structure>();
@@ -60,8 +62,7 @@ public class FileStructureManager {
 	public static void createAllFile(List<Structure> structureList) throws IOException{
 		for (Structure structure : structureList) {
 			for (Integer position : structure.getPositionToUrl().keySet()) {
-				TextFileCreator.createFile(structure.getPositionToUrl().get(position), structure.getName(), 
-						structure.getLastname(), position);
+				TextFileCreator.createFile(structure, position);
 			}
 		}
 	}

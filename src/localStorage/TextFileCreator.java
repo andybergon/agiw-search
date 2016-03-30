@@ -11,6 +11,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.ws.http.HTTPException;
 
@@ -28,7 +29,7 @@ public class TextFileCreator {
 	 * @throws IOException
 	 */
 	public static String getHTML(String URL) throws MalformedURLException{
-		
+
 		SSLTool.disableCertificateValidation();
 		URLConnection connection;
 		try {
@@ -44,29 +45,44 @@ public class TextFileCreator {
 			}
 			in.close();
 			return page;
-			
+
 		} catch (HTTPException e) {
-			// TODO: handle exception
+			System.out.println("http ex");
 			return null;
-		
+
 		} catch (FileNotFoundException e) {
-			// TODO: handle exception
+			System.out.println("file not found ex");
 			return null;
-		
+
 		} catch (IOException e ) {
-			// TODO Auto-generated catch block
+			System.out.println("io ex");
 			e.printStackTrace();
 			return null;
 		}
-		
+
 	}
-	public static void createFile(String urlFile, String name, String lastname, int position) throws IOException{
+
+	public static void createFile(Structure structure, int position) throws IOException{
+		String urlFile = structure.getPositionToUrl().get(position);
+		String name = structure.getName();
+		String lastname = structure.getLastname();
+		
 		String html = getHTML(urlFile);
-		if(html==null)
+
+		if(html==null || html.isEmpty()){
 			return;
-//		String html = title;
-//		title = title.substring(title.indexOf("<title>") + 7);
-//      title = title.substring(0, title.indexOf("</title>"));
+		}
+		//<html lang="it"
+		String language = html;
+		language = language.substring(language.indexOf("lang=")+6);
+		language = language.substring(0, 2);
+		System.out.println(language);
+		if(!language.equals("it"))
+			return;
+		
+		//		String html = title;
+		//		title = title.substring(title.indexOf("<title>") + 7);
+		//      title = title.substring(0, title.indexOf("</title>"));
 		File file = new File("/Users/chiara/Desktop/storage/"+lastname+"_"+name+"_"+position+".txt");
 		if(!file.exists())
 			file.createNewFile();
@@ -74,11 +90,5 @@ public class TextFileCreator {
 		BufferedWriter bw = new BufferedWriter(fw);
 		bw.write(html);
 		bw.close();		
-	}
-	
-	public static void main(String[] args) throws MalformedURLException, IOException {
-		//createFile("https://it.wikipedia.org/wiki/Ciao");
-		List<String> peopleListLista = PeopleList.peopleList("/Users/chiara/Desktop/structure/people.txt");
-		System.out.println(peopleListLista.toString());
 	}
 }
