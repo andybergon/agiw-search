@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +24,7 @@ public class FileStructureManager {
 	 */
 
 	public static void main(String[] args) throws IOException {
-		System.out.println("ciao");
+		System.out.println("Inizio Processamento");
 		/*List<Structure> structureList = createStructure(PropertiesFile.getPeoplePath());
 		createAllFile(structureList);
 		serializeStructure(correctStructure(structureList));
@@ -32,7 +33,8 @@ public class FileStructureManager {
 			System.out.println(s.getLastname());
 			System.out.println(s.getPositionToUrl().keySet());
 		}*/
-		createAllFiles(PropertiesFile.getPeoplePath());
+		//createAllFiles(PropertiesFile.getPeoplePath());
+		directoryIterator();
 	}
 	public static void createAllFiles(String pathFile) throws IOException{
 		List<String> peopleList = PeopleList.peopleList(pathFile);
@@ -47,9 +49,36 @@ public class FileStructureManager {
 				aq.doQuery();
 				AzureSearchResultSet<AzureSearchWebResult> ars = aq.getQueryResult();
 				for (AzureSearchWebResult anr : ars) {
+					System.out.println(anr.getUrl());
 					TextFileCreator.createFile(lastname, name, anr.getUrl());
 				}
 			}
+		}
+	}
+	
+	public static void directoryIterator() throws UnsupportedEncodingException{
+		File dir = new File(PropertiesFile.getStoragePath());
+		File[] directoryListing = dir.listFiles();
+		if (directoryListing != null) {
+			for (File child : directoryListing) {
+				// Do something with child
+				String fileName = child.getName();
+				fileName = fileName.replace(".txt", "");
+				String lastname = fileName.split("_")[0];
+				String name = fileName.split("_")[1];
+				//String url = fileName.split("_")[2];
+				int first = fileName.indexOf("_");
+				int second = fileName.indexOf("_", first+1);
+				String url = fileName.substring(second+1);
+				String urlOriginal = URLDecoder.decode(url, "UTF-8");
+				System.out.println(lastname+" "+name+" "+urlOriginal);
+			}
+		} else {
+			System.out.println("else");
+			// Handle the case where dir is not really a directory.
+			// Checking dir.isDirectory() above would not be sufficient
+			// to avoid race conditions with another process that deletes
+			// directories.
 		}
 	}
 
