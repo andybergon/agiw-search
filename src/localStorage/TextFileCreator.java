@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
@@ -82,7 +83,10 @@ public class TextFileCreator {
 		//		String html = title;
 		//		title = title.substring(title.indexOf("<title>") + 7);
 		//      title = title.substring(0, title.indexOf("</title>"));
-		File file = new File(PropertiesFile.getStoragePath()+lastname+"_"+name+"_"+position+".txt");
+		//File file = new File(PropertiesFile.getStoragePath()+lastname+"_"+name+"_"+position+".txt");
+		String urlEncoded = URLEncoder.encode(urlFile, "UTF-8");
+		File file = new File(PropertiesFile.getStoragePath()+lastname+"_"+name+"_"+urlEncoded+".txt");
+		//String original = URLDecoder.decode(filename, "UTF-8"); //per revertire
 		if(!file.exists())
 			file.createNewFile();
 		FileWriter fw = new FileWriter(file.getAbsoluteFile());

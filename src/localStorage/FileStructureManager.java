@@ -5,6 +5,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -69,7 +71,7 @@ public class FileStructureManager {
 		}
 	}
 
-	public static List<Structure> correctStructure(List<Structure> structureList){
+	public static List<Structure> correctStructure(List<Structure> structureList) throws UnsupportedEncodingException{
 		List<Structure> newStructureList = new ArrayList<Structure>() ;
 		Structure newStructure = new Structure();
 		for (Structure structure : structureList) {
@@ -80,7 +82,8 @@ public class FileStructureManager {
 			for (Integer position : structure.getPositionToUrl().keySet()) {
 				//se esiste nella cartella il file cognome nome numero (il numero=position)
 				//System.out.println(position);
-				File file = new File(PropertiesFile.getStoragePath()+structure.getLastname()+"_"+structure.getName()+"_"+position+".txt");
+				String urlEncoded = URLEncoder.encode(structure.getPositionToUrl().get(position), "UTF-8");
+				File file = new File(PropertiesFile.getStoragePath()+structure.getLastname()+"_"+structure.getName()+"_"+urlEncoded+".txt");
 				if(file.exists()){
 					newMap.put(position, structure.getPositionToUrl().get(position));
 					//					System.out.println(position);
