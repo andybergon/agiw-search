@@ -24,7 +24,6 @@ public class FileStructureManager {
 
 	public static void main(String[] args) throws IOException {
 		System.out.println("ciao");
-		PropertiesFile.writePropertiesFile();//andrà rimosso dopo il primo lancio
 		List<Structure> structureList = createStructure(PropertiesFile.getPeoplePath());
 		createAllFile(structureList);
 		serializeStructure(correctStructure(structureList));

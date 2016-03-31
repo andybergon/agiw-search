@@ -14,32 +14,6 @@ import java.util.Properties;
  */
 public class PropertiesFile {
 
-	public static void writePropertiesFile(){
-		Properties prop = new Properties();
-		OutputStream output = null;
-		try {
-			output = new FileOutputStream("config.properties");
-			// set the properties value
-			prop.setProperty("peoplePath", "C:\\Luca\\Magistrale\\AGIW\\structure\\people.txt");
-			prop.setProperty("structurePath", "C:\\Luca\\Magistrale\\AGIW\\structure\\structure");
-			prop.setProperty("storagePath", "C:\\Luca\\Magistrale\\AGIW\\storage\\");
-			prop.setProperty("bingKey", "enPLlwusr6AQPgZFPgCCcahutEvWSotlQCr5pYH+Lww");
-			// save properties to project root folder
-			prop.store(output, null);
-
-		} catch (IOException io) {
-			io.printStackTrace();
-		} finally {
-			if (output != null) {
-				try {
-					output.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
-	
 	public static String getPeoplePath(){
 		String path = null;
 		Properties prop = new Properties();
