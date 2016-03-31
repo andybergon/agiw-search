@@ -22,10 +22,11 @@ public class FileStructureManager {
 
 	public static void main(String[] args) throws IOException {
 		System.out.println("ciao");
-		List<Structure> structureList = createStructure("/Users/chiara/Desktop/structure/people.txt");
+		PropertiesFile.writePropertiesFile();//andrà rimosso dopo il primo lancio
+		List<Structure> structureList = createStructure(PropertiesFile.getPeoplePath());
 		createAllFile(structureList);
 		serializeStructure(correctStructure(structureList));
-		List<Structure> structureList2=deserializeStructure("/Users/chiara/Desktop/structure/structure");
+		List<Structure> structureList2=deserializeStructure(PropertiesFile.getStructurePath());
 		for(Structure s : structureList2){
 			System.out.println(s.getLastname());
 			System.out.println(s.getPositionToUrl().keySet());
@@ -35,7 +36,7 @@ public class FileStructureManager {
 		List<Structure> structureList = new ArrayList<Structure>();
 		List<String> peopleList = PeopleList.peopleList(pathFile);
 		AzureSearchWebQuery aq = new AzureSearchWebQuery();
-		aq.setAppid("WN2XKNEc30EzahG0zrQwZh20LRK8wGsj1tv/H+xNpUc");
+		aq.setAppid(PropertiesFile.getBingKey());
 		for (String person : peopleList) {
 			String lastname = person.split(" ")[0];
 			String name = person.split(" ")[1];
@@ -79,7 +80,7 @@ public class FileStructureManager {
 			for (Integer position : structure.getPositionToUrl().keySet()) {
 				//se esiste nella cartella il file cognome nome numero (il numero=position)
 				//System.out.println(position);
-				File file = new File("/Users/chiara/Desktop/storage/"+structure.getLastname()+"_"+structure.getName()+"_"+position+".txt");
+				File file = new File(PropertiesFile.getStoragePath()+structure.getLastname()+"_"+structure.getName()+"_"+position+".txt");
 				if(file.exists()){
 					newMap.put(position, structure.getPositionToUrl().get(position));
 					//					System.out.println(position);
@@ -100,7 +101,7 @@ public class FileStructureManager {
 	}
 	public static void serializeStructure(List<Structure> structureList){
 		try{
-			FileOutputStream fos= new FileOutputStream("/Users/chiara/Desktop/structure/structure");
+			FileOutputStream fos= new FileOutputStream(PropertiesFile.getStructurePath());
 			ObjectOutputStream oos= new ObjectOutputStream(fos);
 			oos.writeObject(structureList);
 			oos.close();

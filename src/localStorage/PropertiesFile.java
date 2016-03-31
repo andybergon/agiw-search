@@ -20,9 +20,10 @@ public class PropertiesFile {
 		try {
 			output = new FileOutputStream("config.properties");
 			// set the properties value
-			prop.setProperty("peoplePath", "//Users//chiara//Desktop//structure//people.txt");
-			prop.setProperty("structurePath", "//Users//chiara//Desktop//structure//structure");
-			prop.setProperty("storagePath", "//Users//chiara//Desktop//storage//");
+			prop.setProperty("peoplePath", "C:\\Luca\\Magistrale\\AGIW\\structure\\people.txt");
+			prop.setProperty("structurePath", "C:\\Luca\\Magistrale\\AGIW\\structure\\structure");
+			prop.setProperty("storagePath", "C:\\Luca\\Magistrale\\AGIW\\storage\\");
+			prop.setProperty("bingKey", "enPLlwusr6AQPgZFPgCCcahutEvWSotlQCr5pYH+Lww");
 			// save properties to project root folder
 			prop.store(output, null);
 
@@ -95,6 +96,30 @@ public class PropertiesFile {
 			// load a properties file
 			prop.load(input);
 			path=prop.getProperty("storagePath");
+			return path;
+		} catch (IOException ex) {
+			ex.printStackTrace();
+			return path;
+		} finally {
+			if (input != null) {
+				try {
+					input.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public static String getBingKey(){
+		String path = null;
+		Properties prop = new Properties();
+		InputStream input = null;
+		try {
+			input = new FileInputStream("config.properties");
+			// load a properties file
+			prop.load(input);
+			path=prop.getProperty("bingKey");
 			return path;
 		} catch (IOException ex) {
 			ex.printStackTrace();

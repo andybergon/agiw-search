@@ -82,7 +82,7 @@ public class TextFileCreator {
 		//		String html = title;
 		//		title = title.substring(title.indexOf("<title>") + 7);
 		//      title = title.substring(0, title.indexOf("</title>"));
-		File file = new File("/Users/chiara/Desktop/storage/"+lastname+"_"+name+"_"+position+".txt");
+		File file = new File(PropertiesFile.getStoragePath()+lastname+"_"+name+"_"+position+".txt");
 		if(!file.exists())
 			file.createNewFile();
 		FileWriter fw = new FileWriter(file.getAbsoluteFile());
