@@ -50,5 +50,6 @@
 	<classpathentry kind="lib" path="C:/Luca/Magistrale/AGIW/jar/snakeyaml-1.15.jar"/>
 	<classpathentry kind="lib" path="C:/Luca/Magistrale/AGIW/jar/spatial4j-0.5.jar"/>
 	<classpathentry kind="lib" path="C:/Luca/Magistrale/AGIW/jar/t-digest-3.0.jar"/>
+	<classpathentry kind="lib" path="C:/Luca/Magistrale/AGIW/jar/jsoup-1.8.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
