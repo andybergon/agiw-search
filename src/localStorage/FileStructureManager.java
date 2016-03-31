@@ -24,15 +24,35 @@ public class FileStructureManager {
 
 	public static void main(String[] args) throws IOException {
 		System.out.println("ciao");
-		List<Structure> structureList = createStructure(PropertiesFile.getPeoplePath());
+		/*List<Structure> structureList = createStructure(PropertiesFile.getPeoplePath());
 		createAllFile(structureList);
 		serializeStructure(correctStructure(structureList));
 		List<Structure> structureList2=deserializeStructure(PropertiesFile.getStructurePath());
 		for(Structure s : structureList2){
 			System.out.println(s.getLastname());
 			System.out.println(s.getPositionToUrl().keySet());
+		}*/
+		createAllFiles(PropertiesFile.getPeoplePath());
+	}
+	public static void createAllFiles(String pathFile) throws IOException{
+		List<String> peopleList = PeopleList.peopleList(pathFile);
+		AzureSearchWebQuery aq = new AzureSearchWebQuery();
+		aq.setAppid(PropertiesFile.getBingKey());
+		for (String person : peopleList) {
+			String lastname = person.split(" ")[0];
+			String name = person.split(" ")[1];
+			aq.setQuery(person);
+			for (int i=1; i<=1 ; i++) {
+				aq.setPage(i);
+				aq.doQuery();
+				AzureSearchResultSet<AzureSearchWebResult> ars = aq.getQueryResult();
+				for (AzureSearchWebResult anr : ars) {
+					TextFileCreator.createFile(lastname, name, anr.getUrl());
+				}
+			}
 		}
 	}
+
 	public static List<Structure> createStructure(String pathFile) throws IOException{
 		List<Structure> structureList = new ArrayList<Structure>();
 		List<String> peopleList = PeopleList.peopleList(pathFile);
@@ -96,7 +116,7 @@ public class FileStructureManager {
 
 				}
 				newStructure.setPositionToUrl(newMap);
-				}
+			}
 			newStructureList.add(newStructure);
 		}
 		return newStructureList;
