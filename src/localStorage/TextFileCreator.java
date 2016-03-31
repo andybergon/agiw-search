@@ -63,11 +63,33 @@ public class TextFileCreator {
 
 	}
 
+	public static void createFile(String lastname, String name, String urlFile) throws IOException{
+		String html = getHTML(urlFile);
+		if(html==null || html.isEmpty()){
+			return;
+		}
+		String language = html;
+		language = language.substring(language.indexOf("lang=")+6);
+		language = language.substring(0, 2);
+		if(!language.equals("it"))
+			return;
+		String urlEncoded = URLEncoder.encode(urlFile, "UTF-8");
+		File file = new File(PropertiesFile.getStoragePath()+lastname+"_"+name+"_"+urlEncoded+".txt");
+		//String original = URLDecoder.decode(filename, "UTF-8"); //per revertire
+		if(!file.exists()){
+			file.createNewFile();
+			FileWriter fw = new FileWriter(file.getAbsoluteFile());
+			BufferedWriter bw = new BufferedWriter(fw);
+			bw.write(html);
+			bw.close();
+		}
+	}
+
 	public static void createFile(Structure structure, int position) throws IOException{
 		String urlFile = structure.getPositionToUrl().get(position);
 		String name = structure.getName();
 		String lastname = structure.getLastname();
-		
+
 		String html = getHTML(urlFile);
 
 		if(html==null || html.isEmpty()){
@@ -79,7 +101,7 @@ public class TextFileCreator {
 		language = language.substring(0, 2);
 		if(!language.equals("it"))
 			return;
-		
+
 		//		String html = title;
 		//		title = title.substring(title.indexOf("<title>") + 7);
 		//      title = title.substring(0, title.indexOf("</title>"));
