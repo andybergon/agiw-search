@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -63,8 +64,11 @@ public class TextFileCreator {
 
 	}
 
-	public static void createFile(String lastname, String name, String urlFile) throws IOException{
-		String html = getHTML(urlFile);
+	public static void createFile(String lastname, String name, String urlFile){
+		String html;
+		try {
+			html = getHTML(urlFile);
+
 		if(html==null || html.isEmpty()){
 			return;
 		}
@@ -85,6 +89,16 @@ public class TextFileCreator {
 			BufferedWriter bw = new BufferedWriter(fw);
 			bw.write(html);
 			bw.close();
+		}
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
