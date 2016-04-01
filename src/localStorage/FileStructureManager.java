@@ -44,7 +44,7 @@ public class FileStructureManager {
 			String lastname = person.split(" ")[0];
 			String name = person.split(" ")[1];
 			aq.setQuery(person);
-			for (int i=1; i<=1 ; i++) {
+			for (int i=1; i<=9 ; i++) {
 				aq.setPage(i);
 				aq.doQuery();
 				AzureSearchResultSet<AzureSearchWebResult> ars = aq.getQueryResult();
