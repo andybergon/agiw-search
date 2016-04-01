@@ -14,7 +14,7 @@ import java.util.List;
  *
  */
 public class PeopleList {
-	final static int PEOPLE_NUMBER = 700;
+	final static int PEOPLE_NUMBER = 600;
 	
 	public static List<String> peopleList(String pathFile) throws IOException{
 		List<String> nameList = new ArrayList<String>();
