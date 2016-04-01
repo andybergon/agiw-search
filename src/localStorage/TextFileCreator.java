@@ -69,8 +69,9 @@ public class TextFileCreator {
 			return;
 		}
 		String language = html;
-		if(language.contains("lang="))
-			language = language.substring(language.indexOf("lang=")+6,language.indexOf("lang=")+8);
+		if(!language.contains("lang="))
+			return;
+		language = language.substring(language.indexOf("lang=")+6,language.indexOf("lang=")+8);
 //		language = language.substring(0, 2);
 		System.out.println(language);
 		if(!language.equals("it"))
