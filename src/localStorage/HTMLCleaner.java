@@ -15,7 +15,7 @@ import org.jsoup.select.Elements;
  */
 public class HTMLCleaner {
 
-	public String fileCleaner(String url){
+	public static String fileCleaner(String url){
 		Document doc;
 		try {
 			doc = Jsoup.connect(url).get();

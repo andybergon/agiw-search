@@ -69,8 +69,10 @@ public class TextFileCreator {
 			return;
 		}
 		String language = html;
-		language = language.substring(language.indexOf("lang=")+6);
-		language = language.substring(0, 2);
+		if(language.contains("lang="))
+			language = language.substring(language.indexOf("lang=")+6,language.indexOf("lang=")+8);
+//		language = language.substring(0, 2);
+		System.out.println(language);
 		if(!language.equals("it"))
 			return;
 		String urlEncoded = URLEncoder.encode(urlFile, "UTF-8");

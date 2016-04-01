@@ -33,6 +33,7 @@ public class FileStructureManager {
 			System.out.println(s.getLastname());
 			System.out.println(s.getPositionToUrl().keySet());
 		}*/
+		
 		createAllFiles(PropertiesFile.getPeoplePath());
 		//directoryIterator();
 	}
