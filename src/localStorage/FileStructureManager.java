@@ -16,18 +16,10 @@ public class FileStructureManager {
 
 	public static void main(String[] args) throws IOException {
 		System.out.println("Inizio Processamento");
-		/*List<Structure> structureList = createStructure(PropertiesFile.getPeoplePath());
-		createAllFile(structureList);
-		serializeStructure(correctStructure(structureList));
-		List<Structure> structureList2=deserializeStructure(PropertiesFile.getStructurePath());
-		for(Structure s : structureList2){
-			System.out.println(s.getLastname());
-			System.out.println(s.getPositionToUrl().keySet());
-		}*/
-		
 		createAllFiles(PropertiesFile.getPeoplePath());
 		//deleteEmptyFile();
 	}
+	
 	public static void deleteEmptyFile() throws UnsupportedEncodingException{
 		File dir = new File(PropertiesFile.getStoragePath());
 		File[] directoryListing = dir.listFiles();
