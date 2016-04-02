@@ -42,8 +42,8 @@ public class FileStructureManager {
 		AzureSearchWebQuery aq = new AzureSearchWebQuery();
 		aq.setAppid(PropertiesFile.getBingKey());
 		for (String person : peopleList) {
-			String lastname = person.split(" ")[0];
-			String name = person.split(" ")[1];
+			String lastname = person.split(" ", 2)[0];
+			String name = person.split(" ", 2)[1];
 			aq.setQuery(person);
 			for (int i=1; i<=8 ; i++) {
 				aq.setPage(i);
