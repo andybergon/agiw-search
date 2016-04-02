@@ -26,24 +26,19 @@ public class FileStructureManager {
 		}*/
 		
 		createAllFiles(PropertiesFile.getPeoplePath());
-		//directoryIterator();
+		//deleteEmptyFile();
 	}
-	public static void CSVIterator() throws UnsupportedEncodingException{
+	public static void deleteEmptyFile() throws UnsupportedEncodingException{
 		File dir = new File(PropertiesFile.getStoragePath());
 		File[] directoryListing = dir.listFiles();
 		if (directoryListing != null) {
 			for (File child : directoryListing) {
 				// Do something with child
 				String fileName = child.getName();
-				fileName = fileName.replace(".txt", "");
-				String lastname = fileName.split("_")[0];
-				String name = fileName.split("_")[1];
-				//String url = fileName.split("_")[2];
-				int first = fileName.indexOf("_");
-				int second = fileName.indexOf("_", first+1);
-				String url = fileName.substring(second+1);
-				String urlOriginal = URLDecoder.decode(url, "UTF-8");
-				System.out.println(lastname+" "+name+" "+urlOriginal);
+				if(child.length()==0){
+					System.out.println("vuoto: "+fileName);
+					child.delete();
+				}
 			}
 		} else {
 			System.out.println("Storage Path not setted properly, it should be a directory!");
