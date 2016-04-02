@@ -1,17 +1,17 @@
 package localStorage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+//import java.io.FileInputStream;
+//import java.io.FileOutputStream;
+//import java.io.ObjectInputStream;
+//import java.io.ObjectOutputStream;
+//import java.net.URLEncoder;
+//import java.util.ArrayList;
+//import java.util.HashMap;
+//import java.util.Map;
 
 import net.billylieurance.azuresearch.AzureSearchResultSet;
 import net.billylieurance.azuresearch.AzureSearchWebQuery;
@@ -75,7 +75,7 @@ public class FileStructureManager {
 				System.out.println(lastname+" "+name+" "+urlOriginal);
 			}
 		} else {
-			System.out.println("else");
+			System.out.println("Storage Path not setted properly, it should be a directory!");
 			// Handle the case where dir is not really a directory.
 			// Checking dir.isDirectory() above would not be sufficient
 			// to avoid race conditions with another process that deletes
@@ -83,6 +83,15 @@ public class FileStructureManager {
 		}
 	}
 
+	public static void createAllFile(List<Structure> structureList) throws IOException{
+		for (Structure structure : structureList) {
+			for (Integer position : structure.getPositionToUrl().keySet()) {
+				TextFileCreator.createFile(structure, position);
+			}
+		}
+	}
+	
+	/*
 	public static List<Structure> createStructure(String pathFile) throws IOException{
 		List<Structure> structureList = new ArrayList<Structure>();
 		List<String> peopleList = PeopleList.peopleList(pathFile);
@@ -110,14 +119,6 @@ public class FileStructureManager {
 			structureList.add(structure);
 		}
 		return structureList;
-	}
-
-	public static void createAllFile(List<Structure> structureList) throws IOException{
-		for (Structure structure : structureList) {
-			for (Integer position : structure.getPositionToUrl().keySet()) {
-				TextFileCreator.createFile(structure, position);
-			}
-		}
 	}
 
 	public static List<Structure> correctStructure(List<Structure> structureList) throws UnsupportedEncodingException{
@@ -151,6 +152,7 @@ public class FileStructureManager {
 		}
 		return newStructureList;
 	}
+	
 	public static void serializeStructure(List<Structure> structureList){
 		try{
 			FileOutputStream fos= new FileOutputStream(PropertiesFile.getStructurePath());
@@ -162,6 +164,7 @@ public class FileStructureManager {
 			ioe.printStackTrace();
 		}
 	}
+	
 	public static List<Structure> deserializeStructure(String pathFile){
 		ArrayList<Structure> structureList= new ArrayList<Structure>();
 		try
@@ -181,4 +184,5 @@ public class FileStructureManager {
 			return null;
 		}
 	}
+	*/
 }

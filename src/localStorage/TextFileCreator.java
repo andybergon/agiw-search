@@ -80,7 +80,6 @@ public class TextFileCreator {
 		if(!language.equals("it"))
 			return;
 		String urlEncoded = URLEncoder.encode(urlFile, "UTF-8");
-		name.replace(" ", "_");
 		File file = new File(PropertiesFile.getStoragePath()+lastname+"_"+name+"_"+urlEncoded+".txt");
 		//String original = URLDecoder.decode(filename, "UTF-8"); //per revertire
 		if(!file.exists()){
@@ -112,7 +111,7 @@ public class TextFileCreator {
 		if(html==null || html.isEmpty()){
 			return;
 		}
-		//<html lang="it"
+		//<html lang="it">
 		String language = html;
 		language = language.substring(language.indexOf("lang=")+6);
 		language = language.substring(0, 2);
