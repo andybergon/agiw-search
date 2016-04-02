@@ -37,6 +37,32 @@ public class FileStructureManager {
 		createAllFiles(PropertiesFile.getPeoplePath());
 		//directoryIterator();
 	}
+	public static void CSVIterator() throws UnsupportedEncodingException{
+		File dir = new File(PropertiesFile.getStoragePath());
+		File[] directoryListing = dir.listFiles();
+		if (directoryListing != null) {
+			for (File child : directoryListing) {
+				// Do something with child
+				String fileName = child.getName();
+				fileName = fileName.replace(".txt", "");
+				String lastname = fileName.split("_")[0];
+				String name = fileName.split("_")[1];
+				//String url = fileName.split("_")[2];
+				int first = fileName.indexOf("_");
+				int second = fileName.indexOf("_", first+1);
+				String url = fileName.substring(second+1);
+				String urlOriginal = URLDecoder.decode(url, "UTF-8");
+				System.out.println(lastname+" "+name+" "+urlOriginal);
+			}
+		} else {
+			System.out.println("Storage Path not setted properly, it should be a directory!");
+			// Handle the case where dir is not really a directory.
+			// Checking dir.isDirectory() above would not be sufficient
+			// to avoid race conditions with another process that deletes
+			// directories.
+		}
+	}
+	
 	public static void createAllFiles(String pathFile) throws IOException{
 		List<String> peopleList = PeopleList.peopleList(pathFile);
 		AzureSearchWebQuery aq = new AzureSearchWebQuery();
@@ -44,7 +70,9 @@ public class FileStructureManager {
 		for (String person : peopleList) {
 			String lastname = person.split(" ", 2)[0];
 			String name = person.split(" ", 2)[1];
+			aq.setMarket("it-IT");
 			aq.setQuery(person);
+
 			for (int i=1; i<=8 ; i++) {
 				aq.setPage(i);
 				aq.doQuery();
