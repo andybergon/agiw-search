@@ -4,25 +4,32 @@
 		<title>Search Engine</title>
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		<link type="text/css" rel="stylesheet" href="css/main.css">
+		<!--
 		<script type="text/javascript" src="js/elasticsearch.js"></script>
 		<script type="text/javascript" src="js/search2.js"></script>
+		-->
+		<script type = "text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <script type = "text/javascript" src = "js/search.js" language = "javascript"></script>
 	</head>
 	<body>
-		<table align="center">
-		<tr>
-			<th><img src="img/elastic.png" width="50%"></th>
-		</tr>
-		<tr>
-			<th><font size="4"> version 0.1 </font></th>
-		</tr>
-		<tr>
-			<th><input type="Text" NAME="searchfield" width="50" height="20"></th>
-		</tr>
-		<tr>
-			<th><button type="button" onclick="search();"> search </button></th>
-		</tr>
-		<tr>
-			<th><img src="img/icon.png" width="10%"></th>
-		</tr>
+		<!-- <div class="header">Search Engine</div> -->
+		<div class="container">
+			<div class="inner-container">
+				<div class="inner-container-element">
+					<img id="img_head" src="img/elastic.png">
+				</div>
+				<div class="inner-container-element">
+					<input type="text" id="search_bar"/>
+				</div>
+				<div class="inner-container-element">
+					<button type="button" id="search_button">Search</button>
+				</div>
+			</div>
+			<div id="results"></div>
+		</div>
+<!-- 		<div class="footer">
+			<div class="footer-copyright">© Copyright 2016</div>
+		</div> -->
 	</body>
 </html>
