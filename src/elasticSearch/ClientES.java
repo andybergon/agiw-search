@@ -2,9 +2,13 @@ package elasticSearch;
 
 import static org.elasticsearch.node.NodeBuilder.*;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.elasticsearch.action.get.GetResponse;
@@ -19,6 +23,14 @@ import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
 import org.elasticsearch.search.SearchHit;
 
+import localStorage.HTMLCleaner;
+import localStorage.PeopleList;
+import localStorage.PropertiesFile;
+import localStorage.TextFileCreator;
+import net.billylieurance.azuresearch.AzureSearchResultSet;
+import net.billylieurance.azuresearch.AzureSearchWebQuery;
+import net.billylieurance.azuresearch.AzureSearchWebResult;
+
 public class ClientES {
 	public static void main(String[] args) throws IOException {
 		clientGetter();
@@ -32,7 +44,7 @@ public class ClientES {
 				.node();
 
 		Client client = node.client();
-
+		directoryIterator(client);
 		/*
 		client.prepareIndex("people", "person", "1")
 				.setSource(putJsonDocument("andrea rossi",
@@ -51,12 +63,52 @@ public class ClientES {
 		printPerson(getResponse);
 		 */
 
-		searchDocument(client, "people", "person", "ingegnere");
+		//searchDocument(client, "people", "person", "ingegnere");
 		//searchDocumentForField(client, "people", "person", "content", "ingegnere");
 		
 		// on shutdown
 		node.close();
 
+	}
+	
+	public static void directoryIterator(Client client) throws IOException, UnsupportedEncodingException{
+		File dir = new File(PropertiesFile.getStoragePath());
+		File[] directoryListing = dir.listFiles();
+		if (directoryListing != null) {
+			for (File child : directoryListing) {
+				// Do something with child
+				String fileName = child.getName();
+				fileName = fileName.replace(".txt", "");
+				String lastname = fileName.split("_")[0];
+				String name = fileName.split("_")[1];
+				//String url = fileName.split("_")[2];
+				int first = fileName.indexOf("_");
+				int second = fileName.indexOf("_", first+1);
+				String url = fileName.substring(second+1);
+				String urlOriginal = URLDecoder.decode(url, "UTF-8");
+				System.out.println(lastname+" "+name+" "+urlOriginal);
+				
+				/*String json = "{" +"\"name\":\""+name+"\"," +
+				        "\"lastname\":\""+lastname+"\"," +
+				        "\"body\":\""+HTMLCleaner.getBody(child.getAbsolutePath())+"\"" +
+				        "\"url\":\""+urlOriginal+"\"," +
+				    "}";
+
+				client.prepareIndex("people", "person")
+				        .setSource(json)
+				        .execute().actionGet().isCreated();*/
+				client.prepareIndex("people", "person")
+				.setSource(putJsonDocument(name+" "+lastname, HTMLCleaner.getBody(child.getAbsolutePath()),	
+						new URL(urlOriginal)))
+				.execute().actionGet().isCreated();
+			}
+		} else {
+			System.out.println("Storage Path not setted properly, it should be a directory!");
+			// Handle the case where dir is not really a directory.
+			// Checking dir.isDirectory() above would not be sufficient
+			// to avoid race conditions with another process that deletes
+			// directories.
+		}
 	}
 	
 	public static void searchDocument(Client client, String index, String type, String value) {
