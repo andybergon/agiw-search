@@ -38,7 +38,7 @@ public class ClientES {
 				.clusterName("elasticsearch")
 				.settings(Settings.settingsBuilder()
 				.put("http.enabled", false)
-				.put("path.home", "/home/andybergon/elasticsearch-2.2.1/data"))
+				.put("path.home", PropertiesFile.getESPath()))
 				.client(true)
 				.node();
 
