@@ -1,7 +1,7 @@
 package elasticSearch;
 
 import static org.elasticsearch.node.NodeBuilder.*;
-
+import static org.elasticsearch.common.xcontent.XContentFactory.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -10,6 +10,7 @@ import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequestBuilder;
 import org.elasticsearch.action.index.IndexResponse;
@@ -17,6 +18,7 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
@@ -32,7 +34,6 @@ public class ClientES {
 	}
 
 	public static void clientGetter() throws IOException {
-
 		// on startup
 		Node node = nodeBuilder()
 				.clusterName("elasticsearch")
@@ -43,6 +44,55 @@ public class ClientES {
 				.node();
 
 		Client client = node.client();
+		
+		Settings settings = Settings.settingsBuilder().loadFromSource(jsonBuilder()
+                .startObject()
+                    //Add analyzer settings
+                    .startObject("analysis")
+                        .startObject("filter")
+                            .startObject("test_filter_stopwords_it")
+                                .field("type", "stop")
+                                .field("stopwords_path", "stopwords/stop_it")
+                            .endObject()
+                            .startObject("test_filter_snowball_it")
+                                .field("type", "snowball")
+                                .field("language", "Italian")
+                            .endObject()
+                            .startObject("test_filter_worddelimiter_it")
+                                .field("type", "word_delimiter")
+                                .field("protected_words_path", "worddelimiters/protectedwords_it")
+                                .field("type_table_path", "typetable")
+                            .endObject()
+                            .startObject("test_filter_synonyms_it")
+                                .field("type", "synonym")
+                                .field("synonyms_path", "synonyms/synonyms_it")
+                                .field("ignore_case", true)
+                                .field("expand", true)
+                            .endObject()
+                            .startObject("test_filter_ngram")
+                                .field("type", "edgeNGram")
+                                .field("min_gram", 2)
+                                .field("max_gram", 30)
+                            .endObject()
+                       .endObject()
+                       .startObject("analyzer")
+                            .startObject("test_analyzer")
+                                .field("type", "custom")
+                                .field("tokenizer", "whitespace")
+                                .field("filter", new String[]{"lowercase",
+                                                                                 "test_filter_worddelimiter_it",
+                                                                                 "test_filter_stopwords_it",
+                                                                                 "test_filter_synonyms_it",
+                                                                                 "test_filter_snowball_it"})
+                                .field("char_filter", "html_strip")
+                            .endObject()
+                       .endObject()
+                    .endObject()
+                .endObject().string()).build();
+
+CreateIndexRequestBuilder createIndexRequestBuilder = client.admin().indices().prepareCreate("people");
+createIndexRequestBuilder.setSettings(settings);
+		
 		directoryIterator(client);
 		/*
 		client.prepareIndex("people", "person", "1")
@@ -85,6 +135,7 @@ public class ClientES {
 				String[] data = HTMLCleaner.getTitleAndBody(filePath);
 				String title = data[0];
 				String body = data[1];
+				System.out.println(fileName);
 				client.prepareIndex("people", "person")
 						.setSource(putJsonDocument(title, body,	new URL(urlDecoded)))
 						.execute().actionGet().isCreated();
