@@ -39,6 +39,11 @@ a.result {
   margin-bottom: 2px;
 }
 
+.result-url {
+	color: green;
+	margin-top: 0;
+}
+
 #img_head {
 	width: 50%;
 }
@@ -46,7 +51,7 @@ a.result {
 #search_bar {
 	width: 50%;
   height: 20px;
-  border: 1px solid #EEE;
+  border: 1px solid #d9d9d9;
   padding: 3px 5px;
 }
 

@@ -2,40 +2,34 @@ $(document).ready(function() {
   $("#search_button").click(function(){
     var query = "ingegnere";
     var url = "http://localhost:9200/people/_search?q=";
-    var pretty = "&pretty";
-    var accessFix = "&callback=?";
     query = $("#search_bar").val();
-    console.log(query);
     url = url + query;
-    // url = url + accessFix;
+
+    $('#results').empty(); // clear previous results
 
     $.getJSON(url, function(result){
     	var toAppend;
     	console.log(result);
     	var persons = result.hits.hits;
+    	// oppure: $.each(result, function(i, field){$("div").append(field + " "); });
     	for (var i = 0, length = persons.length; i < length; i++) {
+    		// TODO: eliminare in production
     		console.log(persons[i]);
     		title = persons[i]._source.title;
     		url = persons[i]._source.url;
-    		// toAppend = "<a href=\"" + url + "\">" + title + "</a>";
-    		// toAppend = "<"
-    		// $("#results").append(toAppend);
-    		$('<a\>', {
-			    class: 'result',
-			    href: url,
-			    // title: 'Become a Googler',
-			    // rel: 'external',
-			    text: title
-				}).appendTo('#results');
+    		var regex = /^(https?|ftp):\/\//;
+    		url = url.replace(regex,'');
+				// oppure: $('<a\>', {prop: value}).appendTo('#results');
+				var a = '<a class="result-title" href="' + url + '">' + title + '</a>';
+				var p = '<p class="result-url">' + url + '</p>';
+    		$('#results').append('<div class="result">' + a + p + '</div>');
     	}
-        // $.each(result, function(i, field){
-        //     $("div").append(field + " ");
-        // });
     });
 	});
 });
-    /*
-    */
+
+    // var accessFix = "&callback=?";
+    // url = url + accessFix;
     /*
     $.ajax({
       url: url,
