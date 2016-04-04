@@ -21,26 +21,19 @@
 
 }
 
-.footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: #EEE;
-  padding: 5px 20px;
+.result-title {
+	/* Blue */
+	color: #1a0dab;
+	text-decoration: none;
 }
 
-.footer-copyright {
-	float: right;
-}
-
-a.result {
-  display: block;
-  margin-bottom: 2px;
+.result-title:hover {
+	text-decoration: underline;
 }
 
 .result-url {
-	color: green;
+	/* Green */
+	color: #006621;
 	margin-top: 0;
 }
 
@@ -65,4 +58,17 @@ a.result {
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #EEE;
+  padding: 5px 20px;
+}
+
+.footer-copyright {
+	float: right;
 }
