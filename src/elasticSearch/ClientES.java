@@ -48,45 +48,41 @@ public class ClientES {
 		Settings settings = Settings.settingsBuilder().loadFromSource(jsonBuilder()
 				.startObject()
 				//Add analyzer settings
-				.startObject("analysis")
-				.startObject("filter")
-				.startObject("test_filter_stopwords_it")
-				.field("type", "stop")
-				.field("stopwords_path", "stopwords/stop_it")
-				.endObject()
-				.startObject("test_filter_snowball_it")
-				.field("type", "snowball")
-				.field("language", "Italian")
-				.endObject()
-				.startObject("test_filter_worddelimiter_it")
-				.field("type", "word_delimiter")
-				.field("protected_words_path", "worddelimiters/protectedwords_it")
-				.field("type_table_path", "typetable")
-				.endObject()
-				.startObject("test_filter_synonyms_it")
-				.field("type", "synonym")
-				.field("synonyms_path", "synonyms/synonyms_it")
-				.field("ignore_case", true)
-				.field("expand", true)
-				.endObject()
-				.startObject("test_filter_ngram")
-				.field("type", "edgeNGram")
-				.field("min_gram", 2)
-				.field("max_gram", 30)
-				.endObject()
-				.endObject()
-				.startObject("analyzer")
-				.startObject("test_analyzer")
-				.field("type", "custom")
-				.field("tokenizer", "whitespace")
-				.field("filter", new String[]{"lowercase",
-						"test_filter_worddelimiter_it",
-						"test_filter_stopwords_it",
-						"test_filter_synonyms_it",
-				"test_filter_snowball_it"})
-				.field("char_filter", "html_strip")
-				.endObject()
-				.endObject()
+					.startObject("analysis")
+						.startObject("filter")
+							.startObject("italian_stop")
+								.field("type", "stop")
+								.field("stopwords", "_italian_")
+							.endObject()
+							.startObject("italian_elision")
+								.field("type", "elision")
+								.field("articles", new String[]{
+								                    "c", "l", "all", "dall", "dell",
+								                    "nell", "sull", "coll", "pell",
+								                    "gl", "agl", "dagl", "degl", "negl",
+								                    "sugl", "un", "m", "t", "s", "v", "d"
+													})
+							.endObject()
+							.startObject("italian_keywords")
+								.field("type", "keyword_marker")
+								.field("keywords", new String[]{})
+							.endObject()
+							.startObject("italian_stemmer")
+								.field("type", "stemmer")
+								.field("language", "light_italian")
+							.endObject()
+						.endObject()
+					.startObject("analyzer")
+						.startObject("italian")
+							//.field("type", "custom")
+							.field("tokenizer", "standard")
+							.field("filter", new String[]{"italian_elision",
+						            "lowercase",
+						            "italian_stop",
+						            "italian_keywords",
+						            "italian_stemmer"})
+						.endObject()
+					.endObject()
 				.endObject()
 				.endObject().string()).build();
 
