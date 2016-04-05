@@ -84,8 +84,29 @@ public class ClientES {
 						.endObject()
 					.endObject()
 				.endObject()
+				.startObject("index")
+						.startObject("analysis")
+							.startObject("analyzer")
+								.startObject("my_analyzer")
+									.field("tokenizer", "standard")
+									.field("filter", new String[]{"standard", "lowercase", "my_stemmer"})
+								.endObject()
+							.endObject()
+							.startObject("filter")
+								.startObject("my_stemmer")
+									.field("type", "stemmer")
+									.field("name", "light_italian")
+								.endObject()
+								.startObject("my_snow")
+									.field("type", "snowball")
+									.field("language", "italian")
+								.endObject()
+							.endObject()
+						.endObject()
+				.endObject()
 				.endObject().string()).build();
-
+		
+		
 		CreateIndexRequestBuilder createIndexRequestBuilder = client.admin().indices().prepareCreate("people");
 		createIndexRequestBuilder.setSettings(settings);
 
