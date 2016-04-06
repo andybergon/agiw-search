@@ -95,7 +95,7 @@ public class TClient {
 							.startObject("analyzer")
 								.startObject("my_analyzer")
 									.field("tokenizer", "standard")
-									.field("filter", new String[]{"standard", "lowercase", "my_stemmer"})
+									.field("filter", new String[]{"standard", "lowercase", "my_stemmer", "my_snow"})
 								.endObject()
 							.endObject()
 							.startObject("filter")
