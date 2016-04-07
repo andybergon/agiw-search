@@ -29,10 +29,10 @@ import localStorage.PropertiesFile;
 public class PrecisionRecall {
 
     public static void main(String[] args) throws IOException {
-
+        createDataStructure();
         System.out.println(calculatePrecision("giovanna contini"));
         System.out.println(calculatePrecision("giovanna contini"));
-        }
+    }
 
     /* crea la struttura dati che sarà un file txt contenente coppie chiave valore Url1 - persona1, Url2 - persona2, ...
      * (persona1 sarà cognome1_nome1) */
@@ -46,24 +46,20 @@ public class PrecisionRecall {
         FileWriter fw = new FileWriter(outputFile.getAbsoluteFile());
         BufferedWriter bw = new BufferedWriter(fw);
 
-        /* itero sulle directory (storageChiara, storageLuca) dentro la directory "storageProva" */
-        for(File dir : directory.listFiles()){      
-            if (!dir.getName().equals(".DS_Store")){ //scarto .DS_Store che è un file nascosto che mi crea nella directory
-                /* itero sui file dentro la directory */
-                for(File f : dir.listFiles()){
-                    if (!f.getName().equals(".DS_Store")){ //scarto .DS_Store che è un file nascosto che mi crea nella directory
-                        String path = f.getName(); //prendo il nome del file che sarà "cognome_nome_url.txt"
-                        String lastname = path.split("_", 3)[0];
-                        String name = path.split("_", 3)[1];
-                        String url = path.split("_",3)[2];
-                        url = url.replace(".txt", ""); //tolgo il ".txt" finale 
-                        bw.write(url+" - "+lastname+"_"+name+"\n"); 
-                    }
-                }
+        /* itero sui file dentro la directory */
+        for(File f : directory.listFiles()){
+            if (!f.getName().equals(".DS_Store")){ //scarto .DS_Store che è un file nascosto che mi crea nella directory
+                String path = f.getName(); //prendo il nome del file che sarà "cognome_nome_url.txt"
+                String lastname = path.split("_", 3)[0];
+                String name = path.split("_", 3)[1];
+                String url = path.split("_",3)[2];
+                url = url.replace(".txt", ""); //tolgo il ".txt" finale 
+                bw.write(url+" - "+lastname+"_"+name+"\n"); 
             }
         }
         bw.close();  
     }
+
 
 
     /* Seleziono tutti gli url nel file PrecisionRecallDataStructure e li inserisco in una lista */
@@ -103,8 +99,8 @@ public class PrecisionRecall {
         double relevant = (double)(contRelevant);
         return  relevant / (urlListQuery.size()); 
     }
-    
-    
+
+
     /* creo una struttura dati tipo indice inverso ovvero una mappa Persona (nome cognome), lista di url
      * per farlo sfrutto la struttura creata per la precision */
     public static Map<String, List<String>> createRecallStructure() throws IOException{
@@ -112,7 +108,7 @@ public class PrecisionRecall {
         FileReader fileReader = new FileReader(PropertiesFile.getStructurePath()+"PrecisionRecallDataStructure.txt");
         BufferedReader bufferReader = new BufferedReader(fileReader);
         while (bufferReader.readLine() != null) {
-            
+
             String line = bufferReader.readLine();
             String url = line.split(" -",2)[0];
             String lastname_name = line.split(" -",2)[1];
@@ -120,19 +116,19 @@ public class PrecisionRecall {
             String name= lastname_name.split("_",2)[1];
 
             String key = name+" "+lastname;
-            
+
             List<String> newUrlList = map.get(key);
             if(newUrlList==null){ 
                 newUrlList = new ArrayList<String>();
-                }
+            }
             newUrlList.add(url);
-            
+
             map.put(key, newUrlList);
         }  
         bufferReader.close();
         return map;
     }
-    
+
     /* calcolo la recall (quanti rilevanti tra i recuperati/quanti rilevanti)  
      * il numeratore è lo stesso della 
      * pressuppongo che la query sia "nome cognome"*/
@@ -152,7 +148,7 @@ public class PrecisionRecall {
         }        
         System.out.println(contRelevant);
         System.out.println(urlListQuery.size());
-        
+
         // per trovare i rilevanti in generale sfrutto la struttura dati per la recall
         List<String> listRelevant = createRecallStructure().get(query);
         double relevant = (double)(contRelevant);
