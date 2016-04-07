@@ -125,7 +125,7 @@ public class PrecisionRecall {
         for(String url : urlListQuery){
             String urlEncoded = URLEncoder.encode(url, "UTF-8"); //le url nella urlListQuery non sono encodate, le encodo e verifico l'uguaglianza
             if(urlList.contains(urlEncoded)){
-                contRelevant = contRelevant+1;
+                contRelevant++;
             }
         }        
         System.out.println(contRelevant);
