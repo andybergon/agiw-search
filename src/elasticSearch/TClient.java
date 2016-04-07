@@ -79,6 +79,11 @@ public class TClient {
 							.endObject()
 						.endObject()
 					.startObject("analyzer")
+						.startObject("autocomplete")
+							.field("type", "custom")
+							.field("tokenizer", "standard")
+							.field("filter", new String[]{"standard", "lowercase", "stop", "kstem", "ngram"})
+						.endObject()
 						.startObject("italian")
 							//.field("type", "custom")
 							.field("tokenizer", "standard")
@@ -90,7 +95,7 @@ public class TClient {
 						.endObject()
 					.endObject()
 				.endObject()
-				.startObject("index")
+				/*.startObject("index")
 						.startObject("analysis")
 							.startObject("analyzer")
 								.startObject("my_analyzer")
@@ -109,7 +114,7 @@ public class TClient {
 								.endObject()
 							.endObject()
 						.endObject()
-				.endObject()
+				.endObject()*/
 				.endObject().string()).build();
 		return settings;
 	}
