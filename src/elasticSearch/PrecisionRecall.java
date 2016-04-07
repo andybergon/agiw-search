@@ -67,9 +67,9 @@ public class PrecisionRecall {
         List<String> urlList = new ArrayList<String>();
         FileReader fileReader = new FileReader(PropertiesFile.getStructurePath()+"PrecisionRecallDataStructure.txt");
         BufferedReader bufferReader = new BufferedReader(fileReader);
-        while (bufferReader.readLine() != null) {
-            String line = bufferReader.readLine();
-            String url = line.split(" -",2)[0];
+        String thisLine;
+        while ((thisLine = bufferReader.readLine()) != null) {
+            String url = thisLine.split(" -",2)[0];
             urlList.add(url);
         }  
         bufferReader.close();
@@ -107,11 +107,10 @@ public class PrecisionRecall {
         Map<String,List<String>> map = new HashMap<String, List<String>>();
         FileReader fileReader = new FileReader(PropertiesFile.getStructurePath()+"PrecisionRecallDataStructure.txt");
         BufferedReader bufferReader = new BufferedReader(fileReader);
-        while (bufferReader.readLine() != null) {
-
-            String line = bufferReader.readLine();
-            String url = line.split(" -",2)[0];
-            String lastname_name = line.split(" -",2)[1];
+        String thisLine;
+        while ((thisLine = bufferReader.readLine()) != null) {
+            String url = thisLine.split(" -",2)[0];
+            String lastname_name = thisLine.split(" -",2)[1];
             String lastname= lastname_name.split("_",2)[0];
             String name= lastname_name.split("_",2)[1];
 
