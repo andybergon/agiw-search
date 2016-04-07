@@ -30,8 +30,9 @@ public class PrecisionRecall {
 
     public static void main(String[] args) throws IOException {
         createDataStructure();
-        System.out.println(calculatePrecision("giovanna contini"));
-        System.out.println(calculatePrecision("giovanna contini"));
+        System.out.println(calculatePrecision("Giovanna Contini"));
+        System.out.println(calculateRecall("Giovanna Contini"));
+
     }
 
     /* crea la struttura dati che sarà un file txt contenente coppie chiave valore Url1 - persona1, Url2 - persona2, ...
@@ -61,32 +62,40 @@ public class PrecisionRecall {
     }
 
 
-
-    /* Seleziono tutti gli url nel file PrecisionRecallDataStructure e li inserisco in una lista */
-    public static List<String> getURLfromDataStructure() throws IOException{
-        List<String> urlList = new ArrayList<String>();
+    /* creo una struttura dati tipo indice inverso ovvero una mappa Persona (Nome Cognome), lista di url
+     * per farlo sfrutto la struttura creata nel metodo precedente */
+    public static Map<String, List<String>> createMapPersonUrlList() throws IOException{
+        Map<String,List<String>> map = new HashMap<String, List<String>>();
         FileReader fileReader = new FileReader(PropertiesFile.getStructurePath()+"PrecisionRecallDataStructure.txt");
         BufferedReader bufferReader = new BufferedReader(fileReader);
         String thisLine;
         while ((thisLine = bufferReader.readLine()) != null) {
             String url = thisLine.split(" -",2)[0];
-            urlList.add(url);
+            String lastname_name = thisLine.split(" -",2)[1];
+            String lastname= lastname_name.split("_",2)[0];
+            String name= lastname_name.split("_",2)[1];
+            String key = name+lastname;
+            List<String> newUrlList = map.get(key);
+            if(newUrlList==null){ 
+                newUrlList = new ArrayList<String>();
+            }
+            newUrlList.add(url);
+            map.put(key, newUrlList);
         }  
         bufferReader.close();
-        return urlList;
+        return map;
     }
 
 
-
-    /* calcolo la prevision (quanti rilevanti tra i recuperati/quanti recuperati) */  
+    /* calcolo la precision (quanti rilevanti tra i recuperati/quanti recuperati) */  
     public static double calculatePrecision(String query) throws IOException{
         /* faccio la query */
         Client client = TClient.getClient();
         List<String> urlListQuery = TClient.searchDocument(client, "people", "person", query);
-        List<String> urlList = getURLfromDataStructure();
+        List<String> urlList = createMapPersonUrlList().get(query);
         int contRelevant = 0;
         /* itero sugli url ritornati dalla query e verifico quanti di essi si trovano nella lista 
-         * di url derivata dalla struttura Url1 - persona1, ecc..   ovvero quanti sono RILEVANTI*/
+         * di url derivata dalla struttura Url1 - persona1 per quella persona, ecc..  ovvero quanti sono RILEVANTI*/
         for(String url : urlListQuery){
             String urlEncoded = URLEncoder.encode(url, "UTF-8"); //le url nella urlListQuery non sono encodate, le encodo e verifico l'uguaglianza
             if(urlList.contains(urlEncoded)){
@@ -101,32 +110,6 @@ public class PrecisionRecall {
     }
 
 
-    /* creo una struttura dati tipo indice inverso ovvero una mappa Persona (nome cognome), lista di url
-     * per farlo sfrutto la struttura creata per la precision */
-    public static Map<String, List<String>> createRecallStructure() throws IOException{
-        Map<String,List<String>> map = new HashMap<String, List<String>>();
-        FileReader fileReader = new FileReader(PropertiesFile.getStructurePath()+"PrecisionRecallDataStructure.txt");
-        BufferedReader bufferReader = new BufferedReader(fileReader);
-        String thisLine;
-        while ((thisLine = bufferReader.readLine()) != null) {
-            String url = thisLine.split(" -",2)[0];
-            String lastname_name = thisLine.split(" -",2)[1];
-            String lastname= lastname_name.split("_",2)[0];
-            String name= lastname_name.split("_",2)[1];
-
-            String key = name+" "+lastname;
-
-            List<String> newUrlList = map.get(key);
-            if(newUrlList==null){ 
-                newUrlList = new ArrayList<String>();
-            }
-            newUrlList.add(url);
-
-            map.put(key, newUrlList);
-        }  
-        bufferReader.close();
-        return map;
-    }
 
     /* calcolo la recall (quanti rilevanti tra i recuperati/quanti rilevanti)  
      * il numeratore è lo stesso della 
@@ -135,7 +118,7 @@ public class PrecisionRecall {
         /* faccio la query */
         Client client = TClient.getClient();
         List<String> urlListQuery = TClient.searchDocument(client, "people", "person", query);
-        List<String> urlList = getURLfromDataStructure();
+        List<String> urlList = createMapPersonUrlList().get(query);
         int contRelevant = 0;
         /* itero sugli url ritornati dalla query e verifico quanti di essi si trovano nella lista 
          * di url derivata dalla struttura Url1 - persona1, ecc..   ovvero quanti sono RILEVANTI*/
@@ -146,10 +129,10 @@ public class PrecisionRecall {
             }
         }        
         System.out.println(contRelevant);
-        System.out.println(urlListQuery.size());
-
+        
         // per trovare i rilevanti in generale sfrutto la struttura dati per la recall
-        List<String> listRelevant = createRecallStructure().get(query);
+        List<String> listRelevant = createMapPersonUrlList().get(query);
+        System.out.println(listRelevant.size());
         double relevant = (double)(contRelevant);
         return  relevant / (listRelevant.size()); 
     }
