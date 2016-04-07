@@ -158,7 +158,5 @@ public class PrecisionRecall {
         double relevant = (double)(contRelevant);
         return  relevant / (listRelevant.size()); 
     }
-    
-    
 }
 
