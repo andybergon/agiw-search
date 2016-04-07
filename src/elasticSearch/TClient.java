@@ -2,6 +2,7 @@ package elasticSearch;
 
 import static org.elasticsearch.node.NodeBuilder.*;
 import static org.elasticsearch.common.xcontent.XContentFactory.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -9,7 +10,9 @@ import java.net.InetAddress;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
@@ -37,11 +40,13 @@ import localStorage.PropertiesFile;
 public class TClient {
 	public static void main(String[] args) throws IOException {
 		Client client = getClient();
-		client.admin().indices().delete(new DeleteIndexRequest("people")).actionGet();
-		CreateIndexRequestBuilder createIndexRequestBuilder = client.admin().indices().prepareCreate("people");
-		createIndexRequestBuilder.setSettings(getSettings());
-		directoryIterator(client);
-		client.close();
+		//client.admin().indices().delete(new DeleteIndexRequest("people")).actionGet();
+		//CreateIndexRequestBuilder createIndexRequestBuilder = client.admin().indices().prepareCreate("people");
+		//createIndexRequestBuilder.setSettings(getSettings());
+		//directoryIterator(client);
+		
+		search(client, "people", "person", "giovanna contini");
+		
 	}
 
 	public static Client getClient() throws UnknownHostException{
@@ -158,4 +163,52 @@ public class TClient {
 		jsonDocument.put("url", url);
 		return jsonDocument;
 	}
+	
+	
+	/* Fa la search e restituisce la lista di URL ritornate nei risultati della query */
+	public static List<String> searchDocument(Client client, String index, String type, String query) {
+	    
+	    List<String> urlList = new ArrayList<String>();
+        SearchResponse response = client.prepareSearch(index)
+                .setTypes(type)
+                .setSearchType(SearchType.QUERY_AND_FETCH)
+                .setQuery(QueryBuilders.queryStringQuery("giovanna"))
+                .setFrom(0)
+                .setSize(60)
+                .setExplain(true)
+                .execute()
+                .actionGet();
+
+        SearchHit[] results = response.getHits().getHits();
+
+        //System.out.println("Current results: " + results.length);
+        for (SearchHit hit : results) {
+            Map<String, Object> result = hit.getSource();
+            urlList.add(result.get("url").toString());
+        }
+        //System.out.println(urlList.toString());
+        return urlList;
+    }
+	
+	public static void search(Client client, String index, String type, String value) {
+
+        SearchResponse response = client.prepareSearch(index)
+                .setTypes(type)
+                .setSearchType(SearchType.QUERY_AND_FETCH)
+                .setQuery(QueryBuilders.queryStringQuery(value))
+                .setFrom(0)
+                .setSize(60)
+                .setExplain(true)
+                .execute()
+                .actionGet();
+
+        SearchHit[] results = response.getHits().getHits();
+
+        System.out.println("Current results: " + results.length);
+        for (SearchHit hit : results) {
+            System.out.println("------------------------------");
+            Map<String, Object> result = hit.getSource();
+            System.out.println(hit.getScore() + result.toString());
+        }
+    }
 }

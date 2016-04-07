@@ -3,10 +3,19 @@
  */
 package elasticSearch;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
+import java.net.URLEncoder;
+
+import org.elasticsearch.client.Client;
 
 import localStorage.FileStructureManager;
 import localStorage.PropertiesFile;
@@ -17,14 +26,10 @@ import localStorage.PropertiesFile;
  */
 public class PrecisionRecall {
 
-    public static void main(String[] args) {
-        try {
-            createDataStructure();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+    public static void main(String[] args) throws IOException {
+
+        System.out.println(calculatePrecision("giovanna contini"));
         }
-    }
 
     /* crea la struttura dati che sarà un file txt contenente coppie chiave valore Url1 - persona1, Url2 - persona2, ...
      * (persona1 sarà cognome1_nome1) */
@@ -56,12 +61,44 @@ public class PrecisionRecall {
         }
         bw.close();  
     }
-    
-    /*public static double calculatePrecision(String query){
-        double precision = 0;
+
+
+    /* Seleziono tutti gli url nel file PrecisionRecallDataStructure e li inserisco in una lista */
+    public static List<String> getURLfromDataStructure() throws IOException{
+        List<String> urlList = new ArrayList<String>();
+        FileReader fileReader = new FileReader(PropertiesFile.getStructurePath()+"PrecisionRecallDataStructure.txt");
+        BufferedReader bufferReader = new BufferedReader(fileReader);
+        while (bufferReader.readLine() != null) {
+            String line = bufferReader.readLine();
+            String url = line.split(" -",2)[0];
+            urlList.add(url);
+        }  
+        bufferReader.close();
+        return urlList;
+    }
+
+
+
+    public static double calculatePrecision(String query) throws IOException{
+        /* faccio la query */
+        Client client = TClient.getClient();
+        List<String> urlListQuery = TClient.searchDocument(client, "people", "person", query);
+        List<String> urlList = getURLfromDataStructure();
+        int contRelevant = 0;
+        /* itero sugli url ritornati dalla query e verifico quanti di essi si trovano nella lista 
+         * di url derivata dalla struttura Url1 - persona1, ecc..   ovvero quanti sono RILEVANTI*/
+        for(String url : urlListQuery){
+            String urlEncoded = URLEncoder.encode(url, "UTF-8"); //le url nella urlListQuery non sono encodate, le encodo e verifico l'uguaglianza
+            if(urlList.contains(urlEncoded)){
+                contRelevant = contRelevant+1;
+            }
+        }        
+        System.out.println(contRelevant);
+        System.out.println(urlListQuery.size());
+        // calcolo la precision (quanti rilevanti tra i recuperati/quanti recuperati)
+        double relevant = (double)(contRelevant);
+        return  relevant / (urlListQuery.size()); 
         
-        
-        return precision;
-    }*/
+    }
 }
 
