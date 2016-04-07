@@ -37,7 +37,7 @@ import localStorage.PropertiesFile;
 public class TClient {
 	public static void main(String[] args) throws IOException {
 		Client client = getClient();
-		client.admin().indices().delete(new DeleteIndexRequest("people")).actionGet();
+		//client.admin().indices().delete(new DeleteIndexRequest("people")).actionGet();
 		CreateIndexRequestBuilder createIndexRequestBuilder = client.admin().indices().prepareCreate("people");
 		createIndexRequestBuilder.setSettings(getSettings());
 		directoryIterator(client);
