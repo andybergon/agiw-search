@@ -1,84 +1,12 @@
-<<<<<<< HEAD
-.header {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	background: #EEE;
-	padding: 5px 20px;
-}
-
-=======
->>>>>>> branch 'master' of https://Chiara19@bitbucket.org/Chiara19/agiw.git
 .container {
-<<<<<<< HEAD
 	margin: 50px auto 30px auto;
+	font-family: arial,sans-serif;
 	display: table;
-=======
-  margin: 50px auto 30px auto;
-  font-family: arial,sans-serif;
-  display: table;
->>>>>>> branch 'master' of https://Chiara19@bitbucket.org/Chiara19/agiw.git
 }
 
 .inner-container {
 	margin: auto;
 	text-align: center;
-}
-
-#img_head {
-  width: 50%;
-}
-
-#search_bar {
-  width: 50%;
-  height: 20px;
-  border: 1px solid #d9d9d9;
-  padding: 3px 5px;
-}
-
-#search_button {
-  background-color: #4CAF50; /* Green */
-  border: none;
-  color: white;
-  padding: 10px 30px;
-  margin: 15px 0px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-}
-
-.container-element {
-	
-}
-
-.result-title {
-	/* Blue */
-	color: #1a0dab;
-	text-decoration: none;
-  font-size: 18px;
-}
-
-.result-title:hover {
-	text-decoration: underline;
-}
-
-.result-url {
-	/* Green */
-	color: #006621;
-  font-size: 16px;
-	margin-top: 0;
-	margin-bottom: 0;
-}
-
-.result-desc {
-	/* Black */
-	color: #000000;
-  font-size: 16px;
-	margin-top: 0;
-<<<<<<< HEAD
-	margin-bottom: 1;
 }
 
 #img_head {
@@ -93,8 +21,9 @@
 }
 
 #search_button {
+	/* Green */
 	background-color: #4CAF50;
-	Green border: none;
+	border: none;
 	color: white;
 	padding: 10px 30px;
 	margin: 10px;
@@ -102,31 +31,65 @@
 	text-decoration: none;
 	display: inline-block;
 	font-size: 16px;
-=======
-	margin-bottom:1;
->>>>>>> branch 'master' of https://Chiara19@bitbucket.org/Chiara19/agiw.git
 }
 
-<<<<<<< HEAD
-.footer {
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	background: #EEE;
-	padding: 5px 20px;
-=======
+#img_head {
+	width: 50%;
+}
+
+#search_bar {
+	width: 50%;
+	height: 20px;
+	border: 1px solid #d9d9d9;
+	padding: 3px 5px;
+}
+
+#search_button {
+	background-color: #4CAF50; /* Green */
+	border: none;
+	color: white;
+	padding: 10px 30px;
+	margin: 15px 0px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+}
+
+.container-element {
+}
+
+.result-title {
+	/* Blue */
+	color: #1a0dab;
+	text-decoration: none;
+	font-size: 18px;
+}
+
+.result-title:hover {
+	text-decoration: underline;
+}
+
+.result-url {
+	/* Green */
+	color: #006621;
+	font-size: 16px;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.result-desc {
+	/* Black */
+	color: #000000;
+	font-size: 16px;
+	margin-top: 0;
+	margin-bottom: 1;
+}
+
 .result-pages {
-  text-align: center;
->>>>>>> branch 'master' of https://Chiara19@bitbucket.org/Chiara19/agiw.git
+	text-align: center;
 }
 
-<<<<<<< HEAD
-.footer-copyright {
-	float: right;
-}
-=======
 .result-page {
-  margin-right: 3px;
+	margin-right: 3px;
 }
->>>>>>> branch 'master' of https://Chiara19@bitbucket.org/Chiara19/agiw.git
