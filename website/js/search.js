@@ -28,10 +28,11 @@ $(document).ready(function() {
 				var regex = /^(https?|ftp):\/\//;
 				url = url.replace(regex,'');
 				content = persons[i]._source.content;
-				indexQuery = content.search(" "+query+" ");
+				queryString = " "+ query + " ";
+				indexQuery = content.search(queryString);
 				if (indexQuery!=-1){
 					desc1 = content.substring(indexQuery-50, indexQuery);
-					descQ = content.substring(indexQuery, indexQuery+query.length);
+					descQ = content.substring(indexQuery, indexQuery+query.length+2);
 					descQ = descQ.bold();
 					desc2 = content.substring(indexQuery+query.length, indexQuery+query.length+50);
 					desc = desc1 + descQ + desc2;
