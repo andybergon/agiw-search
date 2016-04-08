@@ -28,7 +28,7 @@ $(document).ready(function() {
 				var regex = /^(https?|ftp):\/\//;
 				url = url.replace(regex,'');
 				content = persons[i]._source.content;
-				indexQuery = content.search(query);
+				indexQuery = content.search(" "+query+" ");
 				if (indexQuery!=-1){
 					desc1 = content.substring(indexQuery-50, indexQuery);
 					descQ = content.substring(indexQuery, indexQuery+query.length);
