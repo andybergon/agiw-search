@@ -67,15 +67,10 @@
   font-size: 16px;
 }
 
-.footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: #EEE;
-  padding: 5px 20px;
+.result-pages {
+  text-align: center;
 }
 
-.footer-copyright {
-	float: right;
+.result-page {
+  margin-right: 3px;
 }
