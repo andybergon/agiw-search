@@ -3,3 +3,5 @@
 bin/
 
 config.properties
+
+.DS_Store
