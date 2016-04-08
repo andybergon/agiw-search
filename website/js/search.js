@@ -49,7 +49,7 @@ $(document).ready(function() {
 			var checkBug = 20; //TODO
 			for (var i = 0; i < checkBug; i++) {
 				var url = "changePage(" + (i+1) + ")";
-				var a = '<a class="result-page" href="#" onclick="' + url + '">' + (i+1) + '</a>';
+				var a = '<a class="result-page" href="#" onclick="' + url + '">' + "  "+(i+1) + '</a>';
 				$('.result-pages').append(a);
 				console.log("adad");
 			}
