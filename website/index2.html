@@ -1,24 +1,35 @@
-<!doctype html>
-<html ng-app="EsConnector">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.js"></script>
-    <script src="elasticsearch.angular.js"></script>
-    <script src="es_connect.js"></script>
-    <script>
-    </script>
+    <title>Search Engine</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <link type="text/css" rel="stylesheet" href="css/main.css">
+    <!--
+    <script type="text/javascript" src="js/elasticsearch.js"></script>
+    <script type="text/javascript" src="js/search2.js"></script>
+    -->
+    <script type = "text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <script type = "text/javascript" src = "js/search.js" language = "javascript"></script>
   </head>
   <body>
-    <div ng-controller="QueryController">
-    <div >
-        <table>
-          <tr ng-repeat="item in hits">
-          <td>{{item['_source']['title']}}</td></tr>
-        </table>
-
-
+    <!-- <div class="header">Search Engine</div> -->
+    <div class="container">
+      <div class="inner-container">
+        <div class="inner-container-element">
+          <img id="img_head" src="img/clas.png">
+        </div>
+        <div class="inner-container-element">
+          <input type="text" id="search_bar"/>
+        </div>
+        <div class="inner-container-element">
+          <button type="button" id="search_button">Search</button>
+        </div>
+      </div>
+      <div id="results"></div>
     </div>
-    <br>
-    Above this line ^^^  should be the results of a test search on the ElasticSearch server.
-    </body>
+<!--    <div class="footer">
+      <div class="footer-copyright">Â© Copyright 2016</div>
+    </div> -->
+  </body>
 </html>

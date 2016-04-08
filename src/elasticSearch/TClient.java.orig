@@ -41,12 +41,19 @@ public class TClient {
 	public static void main(String[] args) throws IOException {
 		Client client = getClient();
 		//client.admin().indices().delete(new DeleteIndexRequest("people")).actionGet();
+<<<<<<< HEAD
 		//CreateIndexRequestBuilder createIndexRequestBuilder = client.admin().indices().prepareCreate("people");
 		//createIndexRequestBuilder.setSettings(getSettings());
 		//directoryIterator(client);
 		
 		search(client, "people", "person", "giovanna contini");
 		
+=======
+		CreateIndexRequestBuilder createIndexRequestBuilder = client.admin().indices().prepareCreate("people");
+		createIndexRequestBuilder.setSettings(getSettings());
+		directoryIterator(client);
+		client.close();
+>>>>>>> 53b887f02d706f78c62fda5b9c1f6fac88bdd1ac
 	}
 
 	public static Client getClient() throws UnknownHostException{
