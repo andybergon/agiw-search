@@ -91,5 +91,18 @@
 }
 
 .result-page {
+	color: #1a0dab;
+	text-decoration: none;
 	margin-right: 3px;
+}
+
+.result-page:hover {
+	text-decoration: underline;
+}
+
+.inactive-link {
+	color: black;
+	pointer-events: none;
+	cursor: default;
+	text-decoration: none;
 }
