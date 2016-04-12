@@ -30,8 +30,8 @@ public class PrecisionRecall {
 
     public static void main(String[] args) throws IOException {
         createDataStructure();
-        System.out.println(calculatePrecision("Giovanna Contini"));
-        System.out.println(calculateRecall("Giovanna Contini"));
+        System.out.println(calculatePrecision("Antonio Cori"));
+        System.out.println(calculateRecall("Antonio Cori"));
 
     }
 
@@ -92,6 +92,7 @@ public class PrecisionRecall {
         /* faccio la query */
         Client client = TClient.getClient();
         List<String> urlListQuery = TClient.searchDocument(client, "people", "person", query);
+        
         List<String> urlList = createMapPersonUrlList().get(query);
         int contRelevant = 0;
         /* itero sugli url ritornati dalla query e verifico quanti di essi si trovano nella lista 
