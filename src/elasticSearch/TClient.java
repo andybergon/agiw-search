@@ -172,7 +172,7 @@ public class TClient {
         SearchResponse response = client.prepareSearch(index)
                 .setTypes(type)
                 .setSearchType(SearchType.QUERY_AND_FETCH)
-                .setQuery(QueryBuilders.queryStringQuery("giovanna"))
+                .setQuery(QueryBuilders.queryStringQuery(query))
                 .setFrom(0)
                 .setSize(60)
                 .setExplain(true)
