@@ -35,6 +35,10 @@
 .container-element {
 }
 
+#results {
+	margin: 2% 5% 0% 5%;
+}
+
 .result-title {
 	/* Blue */
 	color: #1a0dab;

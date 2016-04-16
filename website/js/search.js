@@ -81,7 +81,6 @@ function getES() {
 			a = '<a class="result-page' + inactive + '" href="#" onclick="' + url + '">' + i + '</a>';
 			$('.result-pages').append(a);
 		}
-		console.log("pages appended");
 	});
 }
 
