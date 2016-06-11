@@ -1,4 +1,4 @@
-package elasticSearch;
+package src.elasticSearch;
 
 import static org.elasticsearch.node.NodeBuilder.*;
 import static org.elasticsearch.common.xcontent.XContentFactory.*;
@@ -24,8 +24,8 @@ import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
 import org.elasticsearch.search.SearchHit;
 
-import localStorage.HTMLCleaner;
-import localStorage.PropertiesFile;
+import src.localStorage.HTMLCleaner;
+import src.localStorage.PropertiesFile;
 
 
 public class ClientES {
